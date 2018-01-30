@@ -1,0 +1,21 @@
+{
+  "name": "chromephishcrawler",
+  "version": "1.0.0",
+  "description": "Correct phishing by chrome headless to get js, css, innerHTML, etc.",
+  "main": "crawler_online_valid_chrome.js",
+  "dependencies": {
+    "chrome-remote-interface": "^0.25.5",
+    "jsdom": "^11.6.2",
+    "puppeteer": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome",
+    "headless"
+  ],
+  "author": "shunkin",
+  "license": "ISC"
+}
