@@ -5,6 +5,7 @@
   "main": "crawler_online_valid_chrome.js",
   "dependencies": {
     "chrome-remote-interface": "^0.25.5",
+    "generic-pool": "^3.4.1",
     "jsdom": "^11.6.2",
     "puppeteer": "^1.0.0"
   },

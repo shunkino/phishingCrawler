@@ -1,4 +1,5 @@
 *.png
 online-valid.json
 *.swp
+*.txt
 node_modules/
