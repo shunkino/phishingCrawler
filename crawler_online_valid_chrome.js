@@ -10,6 +10,7 @@ var phishingData = require('./online-valid.json');
 process.on('unhandledRejection', (reason) => {
     console.log('Reason: ' + reason);
 });
+process.setMaxListeners(0);
 
 
 const initialize = ({
@@ -42,7 +43,7 @@ const initialize = ({
   const pool = genericPool.createPool(factory, config)
   const genericAcquire = pool.acquire.bind(pool)
   pool.acquire = () => genericAcquire().then(instance => {
-    instance.useCount += 1
+    instance.useCount += 2
     return instance
   })
   pool.use = (fn) => {
@@ -71,42 +72,25 @@ var i = 1;
 
 for (let elem of phishingData) {
   chromePool.use(async (browser) => {
-    const page = await browser.newPage()
+    const page = await browser.newPage();
+    await page.setUserAgent(rusticUA);
     try{
-      const status = await page.goto(elem['url']);
+      const status = await page.goto(elem['url'], {"waitUntil" : "networkidle2"});
       if (!status.ok) {
         throw new Error('cannot open URL');
       }
     }
     catch (err) {
       console.log(err + " on Page: " + elem['url']);    
+      throw new Error('cannot open URL');
     }
-    const content = await page.content();
     page.close();
     i++;
     console.log("success pagenum : " + i);
-  }, (err) => {console.log("chromePool : Error!")})
+    console.log("pool infos   resource:" + chromePool.spareResourceCapacity + " size : " + chromePool.size + " available : " + chromePool.available + " borrowed : " + chromePool.borrowed + " pending : "+ chromePool.pending);
+  }, (err) => {console.log("chromePool : " + err)})
 }
 
 
 chromePool.drain().then(() => chromePool.clear())
 
-
-
-// (async () => {
-//   const browser = await puppeteer.launch();
-//   const rusticUA = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; rv:11.0) like Gecko"
-//   const page = await browser.newPage();
-//   await page.setUserAgent(rusticUA);
-//   for (let elem of phishingData) {
-//     try{
-//       await page.goto(elem['url'], {"waitUntil" : "networkidle2"});
-//     }
-//     catch (err) {
-//       console.log(err + " on Page: " + elem['url']);
-//     }
-//   }
-// 
-//   await browser.close();
-// })();
-// 
