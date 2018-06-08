@@ -82,7 +82,7 @@ for (let elem of phishingData) {
     }
     catch (err) {
       console.log(err + " on Page: " + elem['url']);    
-      throw new Error('cannot open URL');
+      // throw new Error('cannot open URL');
     }
     page.close();
     i++;

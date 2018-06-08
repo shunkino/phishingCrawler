@@ -5,9 +5,11 @@
   "main": "crawler_online_valid_chrome.js",
   "dependencies": {
     "chrome-remote-interface": "^0.25.5",
+    "csv": "^3.0.2",
     "generic-pool": "^3.4.1",
     "jsdom": "^11.6.2",
-    "puppeteer": "^1.0.0"
+    "mongodb": "^3.0.7",
+    "puppeteer": "^1.3.0"
   },
   "devDependencies": {},
   "scripts": {
